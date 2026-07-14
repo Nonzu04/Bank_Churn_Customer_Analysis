@@ -26,3 +26,21 @@ Checks Performed:
 
 =========================================================
 */
+
+USE BankCustomerAnalysis;
+GO
+
+-- =====================================================
+-- Section 1: Initial Data Inspection
+-- =====================================================
+
+-- Display all records from the Customer_Info table
+-- to understand the structure of the customer dataset.
+SELECT *
+FROM Customer_Info;
+
+-- Display all records from the Bank_Account_Info table
+-- to understand the structure of the account dataset.
+SELECT *
+FROM Bank_Account_Info;
+
