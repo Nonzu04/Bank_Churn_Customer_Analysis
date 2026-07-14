@@ -71,3 +71,35 @@ WHERE c.CustomerId IS NULL;
 -- Result:
 -- Both queries returned zero rows,
 -- confirming referential integrity.
+
+-- =====================================================
+-- Section 3: Validate INNER JOIN
+-- =====================================================
+
+-- Verify that customer and account records
+-- join successfully.
+
+SELECT TOP (10)
+
+    c.CustomerId,
+    c.Surname,
+    c.CreditScore,
+    c.Geography,
+    c.Gender,
+    c.Age,
+    c.EstimatedSalary,
+    b.Balance,
+    b.NumOfProducts,
+    b.HasCrCard,
+    b.IsActiveMember,
+    b.Exited
+
+FROM Customer_Info AS c
+
+INNER JOIN Bank_Account_Info AS b
+
+ON c.CustomerId = b.CustomerId;
+
+-- Result:
+-- Customer and account data joined successfully,
+-- confirming a valid one-to-one relationship.
