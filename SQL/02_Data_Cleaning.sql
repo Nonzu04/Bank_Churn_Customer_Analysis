@@ -64,3 +64,12 @@ WITH DuplicateRows AS
 DELETE
 FROM DuplicateRows
 WHERE RowNum > 1;
+
+-- =====================================================
+-- Section 2: Remove Unnecessary Columns
+-- =====================================================
+
+-- Remove the empty column created during CSV import.
+
+ALTER TABLE Bank_Account_Info
+DROP COLUMN Column9;
