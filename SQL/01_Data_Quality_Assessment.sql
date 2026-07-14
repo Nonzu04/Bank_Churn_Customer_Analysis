@@ -105,3 +105,30 @@ SELECT *
 FROM Bank_Account_Info
 WHERE CustomerId IS NULL;
 
+-- =====================================================
+-- Section 4: Category Consistency Assessment
+-- =====================================================
+
+-- Inspect Geography values to identify inconsistent
+-- category labels.
+
+SELECT DISTINCT Geography
+FROM Customer_Info;
+
+-- Inspect Gender values.
+
+SELECT DISTINCT Gender
+FROM Customer_Info;
+
+-- Inspect credit card values.
+
+SELECT DISTINCT HasCrCard
+FROM Bank_Account_Info;
+
+-- Inspect active membership values.
+
+SELECT DISTINCT IsActiveMember
+FROM Bank_Account_Info;
+
+
+
