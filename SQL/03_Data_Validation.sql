@@ -45,3 +45,29 @@ PRIMARY KEY (CustomerId);
 
 -- Result:
 -- CustomerId is now enforced as a unique identifier.
+
+-- =====================================================
+-- Section 2: Referential Integrity Validation
+-- =====================================================
+
+-- Check for customers that do not have
+-- matching account records.
+
+SELECT c.CustomerId
+FROM Customer_Info AS c
+LEFT JOIN Bank_Account_Info AS b
+ON c.CustomerId = b.CustomerId
+WHERE b.CustomerId IS NULL;
+
+-- Check for account records that do not have
+-- matching customer records.
+
+SELECT b.CustomerId
+FROM Bank_Account_Info AS b
+LEFT JOIN Customer_Info AS c
+ON b.CustomerId = c.CustomerId
+WHERE c.CustomerId IS NULL;
+
+-- Result:
+-- Both queries returned zero rows,
+-- confirming referential integrity.
