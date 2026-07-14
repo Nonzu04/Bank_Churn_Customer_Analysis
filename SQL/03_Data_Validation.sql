@@ -23,3 +23,25 @@ Validation Tasks:
 */
 USE BankCustomerAnalysis;
 GO
+
+-- =====================================================
+-- Section 1: Create Primary Keys
+-- =====================================================
+
+-- Create a Primary Key on Customer_Info.
+
+ALTER TABLE Customer_Info
+ADD CONSTRAINT PK_Customer_Info
+PRIMARY KEY (CustomerId);
+
+-- Result:
+-- CustomerId is now enforced as a unique identifier.
+
+-- Create a Primary Key on Bank_Account_Info.
+
+ALTER TABLE Bank_Account_Info
+ADD CONSTRAINT PK_Bank_Account_Info
+PRIMARY KEY (CustomerId);
+
+-- Result:
+-- CustomerId is now enforced as a unique identifier.
