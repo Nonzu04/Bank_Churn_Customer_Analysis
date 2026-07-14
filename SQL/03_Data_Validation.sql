@@ -123,3 +123,35 @@ ON c.CustomerId = b.CustomerId;
 -- ✓ Numeric monetary fields
 
 -- ✓ Successful table relationships
+
+/*
+=========================================================
+
+Data Validation Summary
+
+Validation Results
+
+✓ Primary Keys successfully created
+
+✓ Referential integrity confirmed
+
+✓ INNER JOIN validated successfully
+
+✓ Customer and account tables linked correctly
+
+✓ Dataset verified for analytical processing
+
+Outcome
+
+The dataset is ready for:
+
+• Exploratory Data Analysis (EDA)
+
+• SQL business analysis
+
+• KPI calculations
+
+• Power BI dashboard development
+
+=========================================================
+*/
