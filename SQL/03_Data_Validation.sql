@@ -105,6 +105,21 @@ ON c.CustomerId = b.CustomerId;
 -- confirming a valid one-to-one relationship.
 
 -- =====================================================
+-- Final Record Count
+-- =====================================================
+
+-- Verify the number of records after cleaning.
+
+SELECT COUNT(*) AS CustomerCount
+FROM Customer_Info;
+
+SELECT COUNT(*) AS AccountCount
+FROM Bank_Account_Info;
+
+-- Result:
+-- Both tables contain the expected number of records.
+
+-- =====================================================
 -- Section 4: Dataset Ready for Analysis
 -- =====================================================
 
