@@ -20,3 +20,21 @@ Objectives:
 
 =========================================================
 */
+USE BankCustomerAnalysis;
+GO
+
+-- =====================================================
+-- Section 1: Dataset Overview
+-- =====================================================
+
+-- Total number of customers.
+
+SELECT
+    COUNT(*) AS TotalCustomers
+FROM Customer_Info;
+
+-- Total number of account records.
+
+SELECT
+    COUNT(*) AS TotalAccounts
+FROM Bank_Account_Info;
