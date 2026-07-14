@@ -47,6 +47,9 @@ DELETE
 FROM DuplicateRows
 WHERE RowNum > 1;
 
+-- Result:
+-- Duplicate customer records successfully removed.
+
 -- Remove duplicate account records while retaining
 -- the first occurrence of each CustomerId.
 
@@ -64,6 +67,9 @@ WITH DuplicateRows AS
 DELETE
 FROM DuplicateRows
 WHERE RowNum > 1;
+
+-- Result:
+-- Duplicate account records successfully removed.
 
 -- =====================================================
 -- Section 2: Remove Unnecessary Columns
@@ -106,8 +112,9 @@ FROM Customer_Info;
 -- currency symbols (€), preventing conversion to
 -- numeric data types.
 
--- Currency symbols were removed prior to converting
--- the columns to DECIMAL(18,2).
+-- Currency symbols were removed from the monetary
+-- fields to enable conversion from text to
+-- DECIMAL(18,2).
 
 -- (Currency cleaning performed before data type conversion.)
 
@@ -127,6 +134,14 @@ FROM Customer_Info;
 
 /*
 =========================================================
+
+-- =====================================================
+-- Data Ready for Validation
+-- =====================================================
+
+-- All identified data quality issues have been addressed.
+-- The cleaned dataset is ready for validation and
+-- exploratory data analysis.
 
 Data Cleaning Summary
 
