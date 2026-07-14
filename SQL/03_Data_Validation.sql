@@ -103,3 +103,23 @@ ON c.CustomerId = b.CustomerId;
 -- Result:
 -- Customer and account data joined successfully,
 -- confirming a valid one-to-one relationship.
+
+-- =====================================================
+-- Section 4: Dataset Ready for Analysis
+-- =====================================================
+
+-- Validation completed successfully.
+
+-- The cleaned dataset satisfies the following:
+
+-- ✓ Unique Customer IDs
+
+-- ✓ No duplicate records
+
+-- ✓ No referential integrity issues
+
+-- ✓ Standardized categorical values
+
+-- ✓ Numeric monetary fields
+
+-- ✓ Successful table relationships
