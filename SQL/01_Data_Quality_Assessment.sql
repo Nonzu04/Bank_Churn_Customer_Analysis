@@ -44,3 +44,37 @@ FROM Customer_Info;
 SELECT *
 FROM Bank_Account_Info;
 
+-- =====================================================
+-- Section 2: Duplicate Record Assessment
+-- =====================================================
+
+-- Check for duplicate Customer IDs in the Customer_Info table.
+-- A valid CustomerId should uniquely identify each customer.
+SELECT
+    CustomerId,
+    COUNT(*) AS NumberOfRecords
+FROM Customer_Info
+GROUP BY CustomerId
+HAVING COUNT(*) > 1;
+
+-- Inspect the duplicate customer record identified during
+-- the duplicate assessment.
+SELECT *
+FROM Customer_Info
+WHERE CustomerId = 15628319;
+
+-- Check for duplicate Customer IDs in the
+-- Bank_Account_Info table.
+SELECT
+    CustomerId,
+    COUNT(*) AS NumberOfRecords
+FROM Bank_Account_Info
+GROUP BY CustomerId
+HAVING COUNT(*) > 1;
+
+-- Inspect the duplicate account record identified during
+-- the duplicate assessment.
+SELECT *
+FROM Bank_Account_Info
+WHERE CustomerId = 15634602;
+
