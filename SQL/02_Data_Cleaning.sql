@@ -73,3 +73,27 @@ WHERE RowNum > 1;
 
 ALTER TABLE Bank_Account_Info
 DROP COLUMN Column9;
+
+-- Result:
+-- The unnecessary empty column was successfully removed
+-- from the Bank_Account_Info table.
+
+-- =====================================================
+-- Section 3: Standardize Categorical Values
+-- =====================================================
+
+-- Standardize Geography values to ensure that each
+-- country is represented consistently.
+
+UPDATE Customer_Info
+SET Geography = 'France'
+WHERE Geography IN ('FRA', 'French');
+
+-- Verify that Geography values have been standardized.
+
+SELECT DISTINCT Geography
+FROM Customer_Info;
+
+-- Result:
+-- Geography values are now standardized as:
+-- France, Germany and Spain.
