@@ -97,3 +97,30 @@ FROM Customer_Info;
 -- Result:
 -- Geography values are now standardized as:
 -- France, Germany and Spain.
+
+-- =====================================================
+-- Section 4: Clean Currency Fields
+-- =====================================================
+
+-- The Balance and EstimatedSalary columns contained
+-- currency symbols (€), preventing conversion to
+-- numeric data types.
+
+-- Currency symbols were removed prior to converting
+-- the columns to DECIMAL(18,2).
+
+-- (Currency cleaning performed before data type conversion.)
+
+-- =====================================================
+-- Section 5: Convert Data Types
+-- =====================================================
+
+-- Converted Balance from NVARCHAR(50)
+-- to DECIMAL(18,2).
+
+-- Converted EstimatedSalary from NVARCHAR(50)
+-- to DECIMAL(18,2).
+
+-- Result:
+-- Monetary values are stored using an appropriate
+-- numeric data type for calculations and analysis.
