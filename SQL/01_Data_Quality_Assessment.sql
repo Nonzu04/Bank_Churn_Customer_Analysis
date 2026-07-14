@@ -130,5 +130,42 @@ FROM Bank_Account_Info;
 SELECT DISTINCT IsActiveMember
 FROM Bank_Account_Info;
 
+-- =====================================================
+-- Section 5: Data Type Assessment
+-- =====================================================
 
+-- Inspect the Balance column before converting
+-- it from text to a numeric data type.
+
+SELECT
+    Balance,
+    REPLACE(Balance, '€', '') AS CleanBalance
+FROM Bank_Account_Info;
+
+-- Inspect the EstimatedSalary column before
+-- converting it from text to a numeric data type.
+
+SELECT
+    EstimatedSalary,
+    REPLACE(EstimatedSalary, '€', '') AS CleanSalary
+FROM Customer_Info;
+
+/*
+=========================================================
+Data Quality Assessment Summary
+
+Issues Identified:
+
+✓ Duplicate CustomerId records
+✓ Missing Age values
+✓ NULL surname values
+✓ Inconsistent Geography categories
+✓ Currency symbols stored in numeric fields
+✓ Empty column created during CSV import
+
+These issues will be addressed in
+02_Data_Cleaning.sql
+
+=========================================================
+*/
 
