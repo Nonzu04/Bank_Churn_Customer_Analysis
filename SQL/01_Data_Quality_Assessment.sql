@@ -1,8 +1,7 @@
-
+/*
 -- =====================================================
 -- Section 1: Initial Data Inspection
 -- =====================================================
-/*
 =========================================================
 Script: 01_Data_Quality_Assessment.sql
 Project: Bank Customer Churn Analysis
@@ -137,6 +136,21 @@ FROM Bank_Account_Info;
 -- Inspect the Balance column before converting
 -- it from text to a numeric data type.
 
+-- Inspect Balance values before conversion.
+
+SELECT TOP (20)
+    Balance
+FROM Bank_Account_Info;
+
+-- Inspect EstimatedSalary values before conversion.
+
+SELECT TOP (20)
+    EstimatedSalary
+FROM Customer_Info;
+
+-- Inspect the Balance column and Estimate Salary before converting
+-- it from text to a numeric data type.
+
 SELECT
     Balance,
     REPLACE(Balance, '€', '') AS CleanBalance
@@ -163,8 +177,12 @@ Issues Identified:
 ✓ Currency symbols stored in numeric fields
 ✓ Empty column created during CSV import
 
-These issues will be addressed in
-02_Data_Cleaning.sql
+Outcome
+
+The identified issues will be corrected in
+02_Data_Cleaning.sql before analytical processing
+and dashboard development.
+
 
 =========================================================
 */
