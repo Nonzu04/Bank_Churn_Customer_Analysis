@@ -78,3 +78,30 @@ SELECT *
 FROM Bank_Account_Info
 WHERE CustomerId = 15634602;
 
+-- =====================================================
+-- Section 3: Missing Values Assessment
+-- =====================================================
+
+-- Identify customer records with missing Age values.
+-- Age is an important demographic attribute used for
+-- customer segmentation and churn analysis.
+
+SELECT *
+FROM Customer_Info
+WHERE Age IS NULL;
+
+-- Check for NULL Customer IDs.
+-- CustomerId is the primary identifier and should
+-- never contain NULL values.
+
+SELECT *
+FROM Customer_Info
+WHERE CustomerId IS NULL;
+
+-- Check for NULL Customer IDs in the
+-- Bank_Account_Info table.
+
+SELECT *
+FROM Bank_Account_Info
+WHERE CustomerId IS NULL;
+
