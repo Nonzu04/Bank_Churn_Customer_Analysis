@@ -124,3 +124,34 @@ FROM Customer_Info;
 -- Result:
 -- Monetary values are stored using an appropriate
 -- numeric data type for calculations and analysis.
+
+/*
+=========================================================
+
+Data Cleaning Summary
+
+Cleaning Tasks Completed
+
+✓ Duplicate customer records removed
+
+✓ Duplicate account records removed
+
+✓ Empty import column removed
+
+✓ Geography values standardized
+
+✓ Currency fields cleaned
+
+✓ Monetary columns converted to DECIMAL(18,2)
+
+Outcome
+
+The dataset has been cleaned and prepared
+for data validation.
+
+Next Script
+
+03_Data_Validation.sql
+
+=========================================================
+*/
