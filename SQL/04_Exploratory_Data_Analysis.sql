@@ -139,14 +139,155 @@ ORDER BY ChurnRate DESC;
 -- Analyse customer churn by gender.
 
 USE BankCustomerAnalysis;
+GO
+
+SELECT
+    
+c.Gender,
+Count(b.Exited) As TotalUnactiveByGender,
+ROUND(
+    (
+        SUM(
+            CASE
+                WHEN b.Exited = 1 THEN 1
+                ELSE 0
+            END
+        ) * 100.0
+    ) / COUNT(*),
+2) AS ChurnRate
+
+FROM Customer_Info AS c
+
+inner JOIN Bank_Account_Info AS b
+
+ON c.CustomerId = b.CustomerId
+Group By Gender;
+
+-- Result:
+-- Female customers recorded a higher churn rate
+-- (25.07%) compared to male customers (16.46%).
+
+
+-- -----------------------------------------------------
+-- Analyse customer churn across different countries.
+
+
+
+-- Result:
+-- Germany recorded the highest churn rate (32.44%),
+-- followed by Spain (16.67%) and France (16.15%).
+
+-- =====================================================
+-- Section 4: Customer Behaviour Analysis
+-- =====================================================
+
+-- Analyse customer churn based on account tenure.
+
+USE BankCustomerAnalysis;
+GO
+
+SELECT
+    CASE
+        WHEN b.Tenure < 3 THEN 'New Customer'
+        WHEN b.Tenure < 7 THEN 'Established Customer'
+        ELSE 'Loyal Customer'
+    END AS TenureGroup,
+
+    COUNT(*) AS TotalChurnedCustomers,
+    ROUND(
+    (
+        SUM(
+            CASE
+                WHEN b.Exited = 1 THEN 1
+                ELSE 0
+            END
+        ) * 100.0
+    ) / COUNT(*),
+2) AS ChurnRate
+
+FROM Customer_Info AS c
+
+INNER JOIN Bank_Account_Info AS b
+    ON c.CustomerId = b.CustomerId
+
+
+GROUP BY
+    CASE
+        WHEN b.Tenure < 3 THEN 'New Customer'
+        WHEN b.Tenure < 7 THEN 'Established Customer'
+        ELSE 'Loyal Customer'
+    END
+
+
+ORDER BY TotalChurnedCustomers DESC;
+
+-- Result:
+-- New customers recorded the highest churn rate
+-- (21.15%), while loyal customers showed the
+-- lowest churn rate (19.51%).
+
+
+-- -----------------------------------------------------
+
+-- Analyse customer churn by account balance.
+
+USE BankCustomerAnalysis;
+GO
+
+SELECT
+    CASE
+        WHEN b.Balance < 50000 THEN 'Low Balance'
+        WHEN b.Balance < 100000 THEN 'Medium Balance'
+        ELSE 'High Balance'
+    END AS AccountBalanceGroup,
+
+    COUNT(*) AS TotalChurnedCustomers,
+     ROUND(
+    (
+        SUM(
+            CASE
+                WHEN b.Exited = 1 THEN 1
+                ELSE 0
+            END
+        ) * 100.0
+    ) / COUNT(*),
+2) AS ChurnRate
+
+FROM Customer_Info AS c
+
+INNER JOIN Bank_Account_Info AS b
+    ON c.CustomerId = b.CustomerId
+
+
+GROUP BY
+    CASE
+        WHEN b.Balance < 50000 THEN 'Low Balance'
+        WHEN b.Balance < 100000 THEN 'Medium Balance'
+        ELSE 'High Balance'
+    END
+
+
+ORDER BY TotalChurnedCustomers DESC;
+
+-- Result:
+-- Customers with high account balances recorded
+-- the highest churn rate (25.23%), suggesting
+-- high-value customers are more likely to leave.
+
+
+-- -----------------------------------------------------
+
+-- Analyse customer churn by active membership.
+
+USE BankCustomerAnalysis;
 
 GO
 
 SELECT
 
-c.Gender,
+b.IsActiveMember,
 
-Count(b.Exited) As TotalUnactiveByGender,
+Count(b.Exited) As TotalUnactiveByActiveMember ,
 ROUND(
     (
         SUM(
@@ -166,13 +307,35 @@ inner JOIN Bank_Account_Info AS b
 ON c.CustomerId = b.CustomerId
 
 
-
-Group By Gender;
+Group By IsActiveMember;
 
 -- Result:
--- Female customers recorded a higher churn rate
--- (25.07%) compared to male customers (16.46%).
+-- Inactive customers recorded a significantly
+-- higher churn rate (26.85%) than active
+-- customers (14.27%).
 
 
 -- -----------------------------------------------------
 
+-- Analyse customer churn by number of products held.
+
+
+
+-- Result:
+-- Customers with multiple products recorded the
+-- highest churn rate (85.89%), while customers
+-- with two products recorded the lowest churn
+-- rate (7.58%).
+
+
+-- -----------------------------------------------------
+
+-- Analyse customer churn across different credit
+-- score categories.
+
+<Credit Score Query>
+
+-- Result:
+-- Customers with poor credit scores recorded
+-- the highest churn rate (22.02%), while customers
+-- with good credit scores showed lower churn rates.
