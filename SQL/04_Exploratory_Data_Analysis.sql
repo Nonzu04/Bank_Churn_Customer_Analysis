@@ -38,3 +38,41 @@ FROM Customer_Info;
 SELECT
     COUNT(*) AS TotalAccounts
 FROM Bank_Account_Info;
+
+-- =====================================================
+-- Section 2: Overall Churn Analysis
+-- =====================================================
+-- Overall customer churn.
+
+SELECT
+
+    COUNT(*) AS TotalCustomers,
+
+    SUM(
+        CASE
+            WHEN Exited = 1 THEN 1
+            ELSE 0
+        END
+    ) AS ChurnedCustomers,
+
+    SUM(
+        CASE
+            WHEN Exited = 0 THEN 1
+            ELSE 0
+        END
+    ) AS RetainedCustomers,
+
+    ROUND(
+        (
+            SUM(
+                CASE
+                    WHEN Exited = 1 THEN 1
+                    ELSE 0
+                END
+            ) * 100.0
+        ) / COUNT(*),
+    2) AS OverallChurnRate
+
+FROM Bank_Account_Info;
+
+
