@@ -79,10 +79,6 @@ FROM Bank_Account_Info;
 -- Section 3: Customer Demographic Analysis
 -- =====================================================
 
--- =====================================================
--- Section 3: Customer Demographic Analysis
--- =====================================================
-
 -- Analyse customer churn across different age groups.
 -- The objective is to determine which age segment has
 -- the highest churn rate.
@@ -138,13 +134,17 @@ ORDER BY ChurnRate DESC;
 
 -- Analyse customer churn by gender.
 
-USE BankCustomerAnalysis;
-GO
-
 SELECT
     
 c.Gender,
-Count(b.Exited) As TotalUnactiveByGender,
+COUNT(*) AS TotalCustomers,
+
+SUM(
+    CASE
+        WHEN b.Exited = 1 THEN 1
+        ELSE 0
+    END
+) AS ChurnedCustomers,
 ROUND(
     (
         SUM(
@@ -171,7 +171,36 @@ Group By Gender;
 -- -----------------------------------------------------
 -- Analyse customer churn across different countries.
 
+SELECT
 
+c.Geography,
+
+COUNT(*) AS TotalCustomers,
+
+SUM(
+    CASE
+        WHEN b.Exited = 1 THEN 1
+        ELSE 0
+    END
+) AS ChurnedCustomers,
+ROUND(
+    (
+        SUM(
+            CASE
+                WHEN b.Exited = 1 THEN 1
+                ELSE 0
+            END
+        ) * 100.0
+    ) / COUNT(*),
+2) AS ChurnRate
+
+FROM Customer_Info AS c
+
+inner JOIN Bank_Account_Info AS b
+
+ON c.CustomerId = b.CustomerId
+    
+Group By Geography  ;
 
 -- Result:
 -- Germany recorded the highest churn rate (32.44%),
@@ -183,9 +212,6 @@ Group By Gender;
 
 -- Analyse customer churn based on account tenure.
 
-USE BankCustomerAnalysis;
-GO
-
 SELECT
     CASE
         WHEN b.Tenure < 3 THEN 'New Customer'
@@ -193,7 +219,7 @@ SELECT
         ELSE 'Loyal Customer'
     END AS TenureGroup,
 
-    COUNT(*) AS TotalChurnedCustomers,
+    COUNT(*) AS TotalCustomers,
     ROUND(
     (
         SUM(
@@ -219,7 +245,7 @@ GROUP BY
     END
 
 
-ORDER BY TotalChurnedCustomers DESC;
+ORDER BY TotalCustomers DESC;
 
 -- Result:
 -- New customers recorded the highest churn rate
@@ -231,9 +257,6 @@ ORDER BY TotalChurnedCustomers DESC;
 
 -- Analyse customer churn by account balance.
 
-USE BankCustomerAnalysis;
-GO
-
 SELECT
     CASE
         WHEN b.Balance < 50000 THEN 'Low Balance'
@@ -241,7 +264,7 @@ SELECT
         ELSE 'High Balance'
     END AS AccountBalanceGroup,
 
-    COUNT(*) AS TotalChurnedCustomers,
+    COUNT(*) AS TotalCustomers,
      ROUND(
     (
         SUM(
@@ -267,7 +290,7 @@ GROUP BY
     END
 
 
-ORDER BY TotalChurnedCustomers DESC;
+ORDER BY TotalCustomers DESC;
 
 -- Result:
 -- Customers with high account balances recorded
@@ -279,15 +302,18 @@ ORDER BY TotalChurnedCustomers DESC;
 
 -- Analyse customer churn by active membership.
 
-USE BankCustomerAnalysis;
-
-GO
-
 SELECT
 
 b.IsActiveMember,
 
-Count(b.Exited) As TotalUnactiveByActiveMember ,
+COUNT(*) AS TotalCustomers,
+
+SUM(
+    CASE
+        WHEN b.Exited = 1 THEN 1
+        ELSE 0
+    END
+) AS ChurnedCustomers,
 ROUND(
     (
         SUM(
@@ -319,9 +345,6 @@ Group By IsActiveMember;
 
 -- Analyse customer churn by number of products held.
 
-USE BankCustomerAnalysis;
-GO
-
 SELECT
     CASE
         WHEN b.NumOfProducts  = 1 THEN 'Single Products'
@@ -329,7 +352,7 @@ SELECT
         ELSE 'Multiple Products'
     END AS ProductGroup,
 
-    COUNT(*) AS TotalChurnedCustomers,
+    COUNT(*) AS TotalCustomers,
 
 ROUND(
     (
@@ -356,7 +379,7 @@ GROUP BY
         ELSE 'Multiple Products'
     END
 
-ORDER BY TotalChurnedCustomers DESC;
+ORDER BY TotalCustomers DESC;
 
 -- Result:
 -- Customers with multiple products recorded the
@@ -370,9 +393,6 @@ ORDER BY TotalChurnedCustomers DESC;
 -- Analyse customer churn across different credit
 -- score categories.
 
-USE BankCustomerAnalysis;
-GO
-
 SELECT
     CASE
         WHEN c.CreditScore < 580 THEN 'Poor'
@@ -381,16 +401,18 @@ SELECT
         ELSE 'Excellent'
     END AS CreditScoreGroup,
    
-    COUNT(*) AS TotalChurnedCustomers,
+    COUNT(*) AS TotalCustomers,
 
-   SUM(
-    CASE
-        WHEN b.Exited = 1 THEN 1
-        ELSE 0
-    END
-)
-*100.0/
-COUNT(*) AS ChurnRate
+ ROUND(
+(
+    SUM(
+        CASE
+            WHEN b.Exited = 1 THEN 1
+            ELSE 0
+        END
+    ) * 100.0
+) / COUNT(*),
+2) AS ChurnRate
 
 FROM Customer_Info AS c
 
@@ -406,7 +428,7 @@ GROUP BY
         ELSE 'Excellent'
     END 
 
-ORDER BY TotalChurnedCustomers DESC;
+ORDER BY TotalCustomers DESC;
 
 -- Result:
 -- Customers with poor credit scores recorded
@@ -473,16 +495,11 @@ b.IsActiveMember;
 
 -- Analyse churn by Geography and Gender.
 
-USE BankCustomerAnalysis;
-
-GO
-
 SELECT
 
 c.Geography,
-
-Count(b.Exited) As TotalUnactiveByGeography ,
 c.Gender,
+Count(b.Exited) As TotalUnactiveByGeography ,
 
 SUM(
     CASE
@@ -522,9 +539,6 @@ Group By Geography , Gender ;
 
 -- Analyse churn by Credit Score and Active Membership.
 
-USE BankCustomerAnalysis;
-GO
-
 SELECT
     CASE
         WHEN c.CreditScore < 580 THEN 'Poor'
@@ -540,7 +554,7 @@ SELECT
         ELSE 0
     END
 ) AS ChurnedCustomers,
-    COUNT(*) AS TotalChurnedCustomers,
+    COUNT(*) AS TotalCustomers,
 
    SUM(
     CASE
@@ -566,7 +580,7 @@ GROUP BY
     END ,
     IsActiveMember
 
-ORDER BY TotalChurnedCustomers DESC;
+ORDER BY TotalCustomers DESC;
 
 -- Result:
 -- Inactive customers consistently recorded higher
@@ -578,9 +592,6 @@ ORDER BY TotalChurnedCustomers DESC;
 -- -----------------------------------------------------
 
 -- Analyse churn by Number of Products and Geography.
-
-USE BankCustomerAnalysis;
-GO
 
 SELECT
     CASE
@@ -595,7 +606,7 @@ SUM(
         ELSE 0
     END
 ) AS ChurnedCustomers,
-    COUNT(*) AS TotalChurnedCustomers,
+    COUNT(*) AS TotalCustomers,
 
 ROUND(
     (
@@ -624,7 +635,7 @@ GROUP BY
     Geography
 
 
-ORDER BY TotalChurnedCustomers DESC;
+ORDER BY TotalCustomers DESC;
 
 -- Result:
 -- Customers with multiple products in Germany
