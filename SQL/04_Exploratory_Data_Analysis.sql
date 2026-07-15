@@ -630,3 +630,43 @@ ORDER BY TotalChurnedCustomers DESC;
 -- Customers with multiple products in Germany
 -- recorded the highest churn rate (91.67%),
 -- indicating a potential high-risk customer group.
+
+/*
+=========================================================
+
+Exploratory Data Analysis Summary
+
+Key Findings
+
+✓ Overall customer churn rate is approximately 20%.
+
+✓ Middle-aged customers recorded the highest
+  demographic churn rate.
+
+✓ Female customers were more likely to churn
+  than male customers.
+
+✓ Germany experienced the highest customer
+  churn among all countries.
+
+✓ Inactive members were substantially more
+  likely to leave the bank.
+
+✓ Customers with multiple products showed
+  exceptionally high churn rates.
+
+✓ High account balances were associated with
+  increased customer churn.
+
+✓ Advanced segmentation identified senior,
+  inactive customers as the highest-risk group.
+
+Outcome
+
+The exploratory analysis identified key customer
+segments associated with churn and provides a
+foundation for dashboard development and business
+recommendations in Power BI.
+
+=========================================================
+*/
