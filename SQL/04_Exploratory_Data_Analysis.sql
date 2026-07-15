@@ -319,7 +319,44 @@ Group By IsActiveMember;
 
 -- Analyse customer churn by number of products held.
 
+USE BankCustomerAnalysis;
+GO
 
+SELECT
+    CASE
+        WHEN b.NumOfProducts  = 1 THEN 'Single Products'
+        WHEN b.NumOfProducts  = 2  THEN 'Two Products'
+        ELSE 'Multiple Products'
+    END AS ProductGroup,
+
+    COUNT(*) AS TotalChurnedCustomers,
+
+ROUND(
+    (
+        SUM(
+            CASE
+                WHEN b.Exited = 1 THEN 1
+                ELSE 0
+            END
+        ) * 100.0
+    ) / COUNT(*),
+2) AS ChurnRate
+
+FROM Customer_Info AS c
+
+INNER JOIN Bank_Account_Info AS b
+    ON c.CustomerId = b.CustomerId
+
+
+
+GROUP BY
+    CASE
+        WHEN b.NumOfProducts  = 1 THEN 'Single Products'
+        WHEN b.NumOfProducts  = 2  THEN 'Two Products'
+        ELSE 'Multiple Products'
+    END
+
+ORDER BY TotalChurnedCustomers DESC;
 
 -- Result:
 -- Customers with multiple products recorded the
@@ -333,9 +370,263 @@ Group By IsActiveMember;
 -- Analyse customer churn across different credit
 -- score categories.
 
-<Credit Score Query>
+USE BankCustomerAnalysis;
+GO
+
+SELECT
+    CASE
+        WHEN c.CreditScore < 580 THEN 'Poor'
+        WHEN c.CreditScore < 669 THEN 'Fair'
+        WHEN c.CreditScore < 739 THEN 'Good'
+        ELSE 'Excellent'
+    END AS CreditScoreGroup,
+   
+    COUNT(*) AS TotalChurnedCustomers,
+
+   SUM(
+    CASE
+        WHEN b.Exited = 1 THEN 1
+        ELSE 0
+    END
+)
+*100.0/
+COUNT(*) AS ChurnRate
+
+FROM Customer_Info AS c
+
+INNER JOIN Bank_Account_Info AS b
+    ON c.CustomerId = b.CustomerId
+
+
+GROUP BY
+    CASE
+        WHEN c.CreditScore < 580 THEN 'Poor'
+        WHEN c.CreditScore < 669 THEN 'Fair'
+        WHEN c.CreditScore < 739 THEN 'Good'
+        ELSE 'Excellent'
+    END 
+
+ORDER BY TotalChurnedCustomers DESC;
 
 -- Result:
 -- Customers with poor credit scores recorded
 -- the highest churn rate (22.02%), while customers
 -- with good credit scores showed lower churn rates.
+
+-- =====================================================
+-- Section 5: Advanced Churn Analysis
+-- =====================================================
+
+-- Analyse churn by Age Group and Active Membership.
+
+SELECT
+
+CASE
+    WHEN c.Age < 40 THEN 'Young Adult'
+    WHEN c.Age < 60 THEN 'Middle Age'
+    ELSE 'Senior'
+END AS AgeGroup,
+
+b.IsActiveMember,
+
+SUM(
+    CASE
+        WHEN b.Exited = 1 THEN 1
+        ELSE 0
+    END
+) AS ChurnedCustomers,
+
+COUNT(*) AS TotalCustomers,
+
+ROUND(
+    (
+        SUM(
+            CASE
+                WHEN b.Exited = 1 THEN 1
+                ELSE 0
+            END
+        ) * 100.0
+    ) / COUNT(*),
+2) AS ChurnRate
+
+FROM Customer_Info AS c
+
+INNER JOIN Bank_Account_Info AS b
+ON c.CustomerId = b.CustomerId
+
+GROUP BY
+
+CASE
+    WHEN c.Age < 40 THEN 'Young Adult'
+    WHEN c.Age < 60 THEN 'Middle Age'
+    ELSE 'Senior'
+END ,
+b.IsActiveMember;
+
+-- Result:
+-- Senior customers who are inactive recorded the
+-- highest churn rate (84.82%), representing the
+-- highest-risk customer segment identified.
+
+
+-- -----------------------------------------------------
+
+-- Analyse churn by Geography and Gender.
+
+USE BankCustomerAnalysis;
+
+GO
+
+SELECT
+
+c.Geography,
+
+Count(b.Exited) As TotalUnactiveByGeography ,
+c.Gender,
+
+SUM(
+    CASE
+        WHEN b.Exited = 1 THEN 1
+        ELSE 0
+    END
+) AS ChurnedCustomers,
+
+ROUND(
+    (
+        SUM(
+            CASE
+                WHEN b.Exited = 1 THEN 1
+                ELSE 0
+            END
+        ) * 100.0
+    ) / COUNT(*),
+2) AS ChurnRate
+
+
+FROM Customer_Info AS c
+
+inner JOIN Bank_Account_Info AS b
+
+ON c.CustomerId = b.CustomerId
+
+
+Group By Geography , Gender ;
+
+-- Result:
+-- Female customers in Germany recorded the highest
+-- churn rate (37.55%) among all gender-country
+-- combinations.
+
+
+-- -----------------------------------------------------
+
+-- Analyse churn by Credit Score and Active Membership.
+
+USE BankCustomerAnalysis;
+GO
+
+SELECT
+    CASE
+        WHEN c.CreditScore < 580 THEN 'Poor'
+        WHEN c.CreditScore < 669 THEN 'Fair'
+        WHEN c.CreditScore < 739 THEN 'Good'
+        ELSE 'Excellent'
+    END AS CreditScoreGroup,
+    b.IsActiveMember,
+
+    SUM(
+    CASE
+        WHEN b.Exited = 1 THEN 1
+        ELSE 0
+    END
+) AS ChurnedCustomers,
+    COUNT(*) AS TotalChurnedCustomers,
+
+   SUM(
+    CASE
+        WHEN b.Exited = 1 THEN 1
+        ELSE 0
+    END
+)
+*100.0/
+COUNT(*) AS ChurnRate
+
+FROM Customer_Info AS c
+
+INNER JOIN Bank_Account_Info AS b
+    ON c.CustomerId = b.CustomerId
+
+
+GROUP BY
+    CASE
+        WHEN c.CreditScore < 580 THEN 'Poor'
+        WHEN c.CreditScore < 669 THEN 'Fair'
+        WHEN c.CreditScore < 739 THEN 'Good'
+        ELSE 'Excellent'
+    END ,
+    IsActiveMember
+
+ORDER BY TotalChurnedCustomers DESC;
+
+-- Result:
+-- Inactive customers consistently recorded higher
+-- churn rates across every credit score category,
+-- highlighting customer activity as a strong
+-- predictor of churn.
+
+
+-- -----------------------------------------------------
+
+-- Analyse churn by Number of Products and Geography.
+
+USE BankCustomerAnalysis;
+GO
+
+SELECT
+    CASE
+        WHEN b.NumOfProducts  = 1 THEN 'Single Products'
+        WHEN b.NumOfProducts  = 2  THEN 'Two Products'
+        ELSE 'Multiple Products'
+    END AS ProductGroup,
+    c.Geography,
+SUM(
+    CASE
+        WHEN b.Exited = 1 THEN 1
+        ELSE 0
+    END
+) AS ChurnedCustomers,
+    COUNT(*) AS TotalChurnedCustomers,
+
+ROUND(
+    (
+        SUM(
+            CASE
+                WHEN b.Exited = 1 THEN 1
+                ELSE 0
+            END
+        ) * 100.0
+    ) / COUNT(*),
+2) AS ChurnRate
+
+FROM Customer_Info AS c
+
+INNER JOIN Bank_Account_Info AS b
+    ON c.CustomerId = b.CustomerId
+
+
+
+GROUP BY
+    CASE
+        WHEN b.NumOfProducts  = 1 THEN 'Single Products'
+        WHEN b.NumOfProducts  = 2  THEN 'Two Products'
+        ELSE 'Multiple Products'
+    END ,
+    Geography
+
+
+ORDER BY TotalChurnedCustomers DESC;
+
+-- Result:
+-- Customers with multiple products in Germany
+-- recorded the highest churn rate (91.67%),
+-- indicating a potential high-risk customer group.
