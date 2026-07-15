@@ -245,7 +245,7 @@ GROUP BY
     END
 
 
-ORDER BY TotalCustomers DESC;
+ORDER BY ChurnRate DESC;
 
 -- Result:
 -- New customers recorded the highest churn rate
@@ -290,7 +290,7 @@ GROUP BY
     END
 
 
-ORDER BY TotalCustomers DESC;
+ORDER BY ChurnRate DESC;
 
 -- Result:
 -- Customers with high account balances recorded
@@ -379,7 +379,7 @@ GROUP BY
         ELSE 'Multiple Products'
     END
 
-ORDER BY TotalCustomers DESC;
+ORDER BY ChurnRate DESC;
 
 -- Result:
 -- Customers with multiple products recorded the
@@ -428,7 +428,7 @@ GROUP BY
         ELSE 'Excellent'
     END 
 
-ORDER BY TotalCustomers DESC;
+ORDER BY ChurnRate DESC;
 
 -- Result:
 -- Customers with poor credit scores recorded
@@ -499,7 +499,7 @@ SELECT
 
 c.Geography,
 c.Gender,
-Count(b.Exited) As TotalUnactiveByGeography ,
+COUNT(*) AS TotalCustomers,
 
 SUM(
     CASE
@@ -556,14 +556,16 @@ SELECT
 ) AS ChurnedCustomers,
     COUNT(*) AS TotalCustomers,
 
-   SUM(
-    CASE
-        WHEN b.Exited = 1 THEN 1
-        ELSE 0
-    END
-)
-*100.0/
-COUNT(*) AS ChurnRate
+ROUND(
+(
+    SUM(
+        CASE
+            WHEN b.Exited = 1 THEN 1
+            ELSE 0
+        END
+    ) * 100.0
+) / COUNT(*),
+2) AS ChurnRate
 
 FROM Customer_Info AS c
 
@@ -580,7 +582,7 @@ GROUP BY
     END ,
     IsActiveMember
 
-ORDER BY TotalCustomers DESC;
+ORDER BY ChurnRate DESC;
 
 -- Result:
 -- Inactive customers consistently recorded higher
@@ -635,7 +637,7 @@ GROUP BY
     Geography
 
 
-ORDER BY TotalCustomers DESC;
+ORDER BY ChurnRate DESC;
 
 -- Result:
 -- Customers with multiple products in Germany
